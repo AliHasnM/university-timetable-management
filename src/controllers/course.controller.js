@@ -70,7 +70,8 @@ export const getCourse = asyncHandler(async (req, res) => {
 // Function to get all courses
 export const getAllCourses = asyncHandler(async (req, res) => {
   try {
-    const courses = await Course.find();
+    // const courses = await Course.find();
+    const courses = await Course.find().sort({ createdAt: -1 });
 
     if (!courses || courses.length === 0) {
       throw new ApiError(404, "No courses found");

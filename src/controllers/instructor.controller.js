@@ -40,7 +40,9 @@ export const getInstructor = asyncHandler(async (req, res) => {
   try {
     const { instructorId } = req.params;
 
-    const instructor = await Instructor.findById(instructorId);
+    const instructor =
+      await Instructor.findById(instructorId).populate("subjects");
+    // const instructor = await Instructor.findById(instructorId);
 
     if (!instructor) {
       throw new ApiError(404, "Instructor not found");
@@ -62,7 +64,7 @@ export const getInstructor = asyncHandler(async (req, res) => {
 // Function to get all instructors
 export const getAllInstructors = asyncHandler(async (req, res) => {
   try {
-    const instructors = await Instructor.find({}).sort({ createdAt: -1 });
+    const instructors = await Instructor.find({}).populate("subjects");
 
     return res
       .status(200)
@@ -122,7 +124,8 @@ export const deleteInstructor = asyncHandler(async (req, res) => {
     }
 
     // Delete the instructor
-    await instructor.deleteOne({ id: instructor._id });
+    await instructor.deleteOne(); // cleaner and idiomatic
+    // await instructor.deleteOne({ id: instructor._id });
 
     return res
       .status(200)

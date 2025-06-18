@@ -13,6 +13,7 @@ import { verifyJWT, checkRole } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // ✅ Timetable Routes
+
 router
   .route("/admin/generate-timetable")
   .post(verifyJWT, checkRole("Admin"), generateTimetable);
